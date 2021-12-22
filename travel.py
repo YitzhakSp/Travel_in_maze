@@ -1,3 +1,9 @@
+##########################
+'''
+travel around the maze using arrow keys
+'''
+############################
+
 from arch_1 import *
 from gw_draw_utils import *
 import time
@@ -82,9 +88,5 @@ def move_agent(gw_obj,direction):
 
 gw=generate_gw()
 run_game_iact(gw)
-time.sleep(1)
-#input('move agent ?')
-#change_agent_location(gw,(0,0),(1,1))
-#show_gw(gw)
 
 
