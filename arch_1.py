@@ -4,6 +4,6 @@ arch['WORLD_HEIGHT'] = 10
 arch['WORLD_WIDTH'] = 6
 arch['goal'] = [9,0]
 arch['pits']= []
-arch['ra_states']=[]
+arch['ra_states']=[[5,0],[5,1]]
 arch['walls'] = [[6,0],[6,1],[6,2],[6,3],[6,4]]
 arch['crit_states'] = [[4,0],[5,0],[5,1],[6,0]]

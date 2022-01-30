@@ -19,8 +19,7 @@ ra_states = arch['ra_states']
 def generate_gw():
     gridworld_image = GridWorldImg(WORLD_WIDTH, WORLD_HEIGHT, tile_size=50)
     gridworld_image.agent_loc=(0,0)
-    gridworld_image.circle_add(gridworld_image.agent_loc)
-    gridworld_image.tile_add((goal[1],goal[0]))
+    gridworld_image.goal_loc=(goal[1],goal[0])
     for w in walls:
         gridworld_image.tile_add((w[1],w[0]), (0, 0, 0))
     for p in ra_states:
@@ -29,9 +28,12 @@ def generate_gw():
         gridworld_image.circle_add((p[1], p[0]), (0, 100, 0))
     return gridworld_image
 
-def change_agent_location(gw_obj,old_loc,new_loc):
+def change_agent_location_old(gw_obj,old_loc,new_loc):
     gw_obj.circle_delete(old_loc)
     gw_obj.circle_add(new_loc)
+    gw_obj.agent_loc=new_loc
+
+def change_agent_location(gw_obj,old_loc,new_loc):
     gw_obj.agent_loc=new_loc
 
 def show_gw(gw_obj):

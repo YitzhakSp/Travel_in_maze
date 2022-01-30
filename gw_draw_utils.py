@@ -26,11 +26,12 @@ class GridWorldImg:
             call for differently sized windows. This may be partially fixable with further development."""
 
     def __init__(self, width_units: int = 10, height_units: int = 10, tile_size: int = 95,
-                 margin: int = 5, background: tuple = (50, 50, 50), inactive_tile_color: tuple = (100, 100, 100),
+                 margin: int = 5, background: tuple = (50, 50, 50), inactive_tile_color: tuple = (255, 255, 255),
                  active_tile_color: tuple = (70, 70, 200), default_line_color: tuple = (200, 200, 200),
                  default_line_width: int = 3, path_color: tuple = None, default_path_width: int = 3,
                  default_circle_color: tuple = (200, 200, 200), default_circle_ratio: float = .65,
-                 title: str = "Grid World", font_size: int = None, default_text_color: tuple = (255, 255, 255)):
+                 title: str = "Grid World", font_size: int = None, default_text_color: tuple = (255, 255, 255),
+                 agent_img='agent.png',goal_img='goal.jpeg'):
 
         # Screen setup
         self.width_units = width_units
@@ -40,8 +41,14 @@ class GridWorldImg:
         self.screen = pg.display.set_mode((self.screen_width, self.screen_height))
         self.title = title
         pg.display.set_caption(title)
+        self.dx=tile_size+margin
+        self.dy=tile_size+margin
+        self.agent_loc=None
+        self.goal_loc=None
 
         # Colors
+        self.agent_img = pg.image.load(agent_img).convert()
+        self.goal_img = pg.image.load(goal_img).convert()
         self.background = background
         self.inactive_tile_color = inactive_tile_color
         self.active_tile_color = active_tile_color
@@ -131,6 +138,12 @@ class GridWorldImg:
             for x in range(self.width_units):
                 self.tile_color((x, y), active=False, suppress=True)
         # Re-drawing active elements
+        if not (self.agent_loc is None):
+            agent_loc_pix=self.get_corner_coords(self.agent_loc)
+            self.screen.blit(self.agent_img,agent_loc_pix)  # paint to screen
+        if not (self.goal_loc is None):
+            goal_loc_pix=self.get_corner_coords(self.goal_loc)
+            self.screen.blit(self.goal_img,goal_loc_pix)  # paint to screen
         for location in self.tiles:
             self.tile_color(location, self.tiles[location])
         for location in self.circles:
@@ -144,6 +157,8 @@ class GridWorldImg:
         pg.display.update()
         pg.display.set_caption(self.title)
         #pg.image.save(self.screen,'gridworld.png')
+
+
 
     def get_corner_coords(self, location: tuple):
         """Helper method for drawing methods [ i.e. self.tile_color() ].
